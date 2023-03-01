@@ -1,0 +1,103 @@
+USE homework4;
+
+DROP TABLE IF EXISTS AUTO;
+CREATE TABLE IF NOT EXISTS AUTO 
+(       
+	REGNUM VARCHAR(10) PRIMARY KEY, 
+	MARK VARCHAR(10), 
+	COLOR VARCHAR(15),
+	RELEASEDT DATE, 
+	PHONENUM VARCHAR(15)
+);
+
+TRUNCATE TABLE AUTO;
+
+ -- AUTO
+INSERT INTO AUTO (REGNUM, MARK,	COLOR, RELEASEDT, PHONENUM )
+VALUES(111114,'LADA', 'КРАСНЫЙ', date'2008-01-01', '9152222221');
+
+
+INSERT INTO AUTO (REGNUM, MARK,	COLOR, RELEASEDT, PHONENUM )
+VALUES(111115,'VOLVO', 'КРАСНЫЙ', date'2013-01-01', '9173333334');
+
+
+INSERT INTO AUTO (REGNUM, MARK,	COLOR, RELEASEDT, PHONENUM )
+VALUES(111116,'BMW', 'СИНИЙ', date'2015-01-01', '9173333334');
+
+
+INSERT INTO AUTO (REGNUM, MARK,	COLOR, RELEASEDT, PHONENUM )
+VALUES(111121,'AUDI', 'СИНИЙ', date'2009-01-01', '9173333332');
+
+
+INSERT INTO AUTO (REGNUM, MARK,	COLOR, RELEASEDT, PHONENUM )
+VALUES(111122,'AUDI', 'СИНИЙ', date'2011-01-01', '9213333336');
+
+
+INSERT INTO AUTO (REGNUM, MARK,	COLOR, RELEASEDT, PHONENUM )
+VALUES(111113,'BMW', 'ЗЕЛЕНЫЙ', date'2007-01-01', '9214444444');
+
+
+INSERT INTO AUTO (REGNUM, MARK,	COLOR, RELEASEDT, PHONENUM )
+VALUES(111126,'LADA', 'ЗЕЛЕНЫЙ', date'2005-01-01', null);
+
+
+INSERT INTO AUTO (REGNUM, MARK,	COLOR, RELEASEDT, PHONENUM )
+VALUES(111117,'BMW', 'СИНИЙ', date'2005-01-01', null);
+
+
+INSERT INTO AUTO (REGNUM, MARK,	COLOR, RELEASEDT, PHONENUM )
+VALUES(111119,'LADA', 'СИНИЙ', date'2017-01-01', 9213333331);
+
+SELECT * FROM AUTO;
+
+# TASK1
+SELECT *
+FROM AUTO
+WHERE ((MARK = "BMW" OR MARK = "LADA") AND COLOR = "КРАСНЫЙ");
+
+
+# TASK2
+-- Ничего не придумал как это сделать без переменных.
+-- Придумал только так, как ниже
+SELECT DISTINCT @current_mark := MARK, (SELECT COUNT(*) FROM AUTO WHERE MARK != @current_mark)
+FROM AUTO;
+
+
+
+# TASK3
+
+create table IF NOT EXISTS test_a 
+	(
+	id INT, 
+    data varchar(45)
+    );
+    
+create table IF NOT EXISTS test_b 
+	(
+	id INT
+    );
+
+TRUNCATE TABLE test_a;
+TRUNCATE TABLE test_b;
+
+insert into test_a(id, data) 
+	values
+	(10, 'A'),
+	(20, 'A'),
+	(30, 'F'),
+	(40, 'D'),
+	(50, 'C');
+
+insert into test_b(id) 
+	values
+	(10),
+	(30),
+	(50);
+    
+SELECT *
+FROM test_a 
+LEFT JOIN test_b 
+ON test_a.id = test_b.id
+WHERE test_b.id IS NULL;
+
+
